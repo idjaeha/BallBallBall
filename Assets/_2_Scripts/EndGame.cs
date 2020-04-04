@@ -23,10 +23,15 @@ public class EndGame : MonoBehaviour
             Application.Quit();
         }
         
-        else if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
             SceneManager.LoadScene("Loading");
         }
-        
+
+        if (Application.isMobilePlatform && Input.GetMouseButtonDown(0))
+        {
+            SceneManager.LoadScene("Loading");
+        }
+
     }
 }

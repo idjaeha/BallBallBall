@@ -14,13 +14,18 @@ public class StartGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             ChangeScene();
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
+        }
+
+        if (Application.isMobilePlatform && Input.GetMouseButtonDown(0))
+        {
+            ChangeScene();
         }
     }
 

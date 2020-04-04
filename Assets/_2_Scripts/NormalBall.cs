@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActionNormal : MonoBehaviour
+public class NormalBall : MonoBehaviour
 {
     private Rigidbody rb;
     private Vector3 startForce;
     private float startAngle;
-    private float startSpeed;
+    public float startSpeed;
     // Start is called before the first frame update
     void Start()
     {
         startAngle = Random.Range(0f, 360.0f);
-        startSpeed = 700.0f;
+        startSpeed = 500.0f;
         rb = GetComponent<Rigidbody>();
         Vector3 vector = Quaternion.AngleAxis(startAngle, Vector3.forward) * Vector3.right;
         rb.AddForce(vector * startSpeed);
@@ -24,10 +24,6 @@ public class ActionNormal : MonoBehaviour
         
     }
 
-    void OnMouseUp()
-    {
-        Destroy(gameObject);
-    }
 
     private void OnTriggerEnter(Collider other)
     {

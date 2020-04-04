@@ -232,7 +232,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Click on the screen to begin.
+  m_Text: Press the space to start.
 --- !u!222 &549730478
 CanvasRenderer:
   m_ObjectHideFlags: 0
