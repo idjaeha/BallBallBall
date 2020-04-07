@@ -5,16 +5,21 @@ using UnityEngine;
 public class SpawnBall : MonoBehaviour
 {
     public NormalBall normalBall;
-    // Start is called before the first frame update
+    public string[] state = { "Circle", "Line" };
+
     void Start()
     {
-        for (var idx = 0; idx < 10; idx++) 
-        normalBall = Instantiate(normalBall, Vector3.zero, Quaternion.identity);
+        SpawnCircle();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SpawnCircle()
     {
-        
+        for (var idx = 0; idx < 10; idx++)
+        {
+            normalBall = Instantiate(normalBall, transform.position, Quaternion.identity);
+            normalBall.startAngle = 360 - 36 * idx;
+            normalBall.startSpeed = 300.0f;
+            normalBall.ShootBall();
+        }
     }
 }

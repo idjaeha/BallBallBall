@@ -7,6 +7,7 @@ TagManager:
   - Target
   - ClearTime
   - Border
+  - Ball
   layers:
   - Default
   - TransparentFX

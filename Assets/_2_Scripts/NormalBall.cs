@@ -6,22 +6,23 @@ public class NormalBall : MonoBehaviour
 {
     private Rigidbody rb;
     private Vector3 startForce;
-    private float startAngle;
-    public float startSpeed;
+    public float startSpeed { get; set; }
+    public float startAngle { get; set; }
     // Start is called before the first frame update
     void Start()
     {
-        startAngle = Random.Range(0f, 360.0f);
-        startSpeed = 500.0f;
-        rb = GetComponent<Rigidbody>();
-        Vector3 vector = Quaternion.AngleAxis(startAngle, Vector3.forward) * Vector3.right;
-        rb.AddForce(vector * startSpeed);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    public void ShootBall()
+    {
+        rb = GetComponent<Rigidbody>();
+        Vector3 vector = Quaternion.AngleAxis(startAngle, Vector3.forward) * Vector3.right;
+        rb.AddForce(vector * startSpeed);
     }
 
 
@@ -38,6 +39,6 @@ public class NormalBall : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, -rb.velocity.y, 0);
             }
         }
-        
+
     }
 }

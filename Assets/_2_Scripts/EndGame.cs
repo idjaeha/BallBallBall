@@ -12,18 +12,18 @@ public class EndGame : MonoBehaviour
     {
         clearTime = GameObject.FindGameObjectWithTag("ClearTime");
         string record = GameData.playtime.ToString();
-        clearTime.GetComponent<Text>().text = $"Your Record : {record}s";
+        clearTime.GetComponent<Text>().text = $"Your Record : {record:F3}s";
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
-        
-        else if (Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             SceneManager.LoadScene("Loading");
         }
