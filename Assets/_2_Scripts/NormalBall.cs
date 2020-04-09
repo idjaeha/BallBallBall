@@ -6,8 +6,9 @@ public class NormalBall : MonoBehaviour
 {
     private Rigidbody rb;
     private Vector3 startForce;
-    public float startSpeed { get; set; }
-    public float startAngle { get; set; }
+    public float shootSpeed { get; set; }
+    public Vector3 shootDir { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,11 +19,20 @@ public class NormalBall : MonoBehaviour
     {
     }
 
-    public void ShootBall()
+    public void ShootBall(float angle, float speed)
     {
         rb = GetComponent<Rigidbody>();
-        Vector3 vector = Quaternion.AngleAxis(startAngle, Vector3.forward) * Vector3.right;
-        rb.AddForce(vector * startSpeed);
+        shootDir = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.right;
+        shootSpeed = speed;
+        rb.AddForce(shootDir * shootSpeed);
+
+    }
+    public void ShootBall(Vector3 dir, float speed)
+    {
+        rb = GetComponent<Rigidbody>();
+        shootDir = dir.normalized;
+        shootSpeed = speed;
+        rb.AddForce(shootDir * shootSpeed);
     }
 
 

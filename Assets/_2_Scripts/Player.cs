@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 30.0f;
-    // Start is called before the first frame update
+    public float moveSpeed;
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         ControlMove();
@@ -21,8 +19,7 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Ball"))
         {
-            Debug.Log("Crash!!");
-            GameData.gameover = true;
+            GameManager.instance.EndPlay();
         }
     }
 
@@ -30,8 +27,13 @@ public class Player : MonoBehaviour
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 moveDir = new Vector3(horizontal, vertical, 0);
-        transform.Translate(moveDir.normalized * moveSpeed * Time.deltaTime, Space.Self);
+        Vector3 moveDir = new Vector3(horizontal, vertical, 0).normalized;
+        Vector3 pos = transform.position;
+        pos += moveDir * moveSpeed * Time.deltaTime;
+        pos.x = Mathf.Clamp(pos.x, -GameData.mapSizeX, GameData.mapSizeX);
+        pos.y = Mathf.Clamp(pos.y, -GameData.mapSizeY, GameData.mapSizeY);
+        transform.position = pos;
+
     }
 
 }

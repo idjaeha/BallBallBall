@@ -3,7 +3,13 @@ guid: aeb7d9242f2337d438220dc0320010d8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - rawPlayer: {fileID: 1077930101524274483, guid: 6c052e6a1e6490447b5ebe5447eb93d7,
+      type: 3}
+  - player: {instanceID: 0}
+  - rawStageManager: {instanceID: 0}
+  - stageManager: {instanceID: 0}
+  - UIPause: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
