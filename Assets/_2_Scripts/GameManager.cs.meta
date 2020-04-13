@@ -4,8 +4,9 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - rawPlayer: {fileID: 1077930101524274483, guid: 6c052e6a1e6490447b5ebe5447eb93d7,
-      type: 3}
+  - normalBall: {instanceID: 0}
+  - balls: {instanceID: 0}
+  - rawPlayer: {instanceID: 0}
   - player: {instanceID: 0}
   - rawStageManager: {instanceID: 0}
   - stageManager: {instanceID: 0}

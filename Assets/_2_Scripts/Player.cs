@@ -19,7 +19,9 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Ball"))
         {
-            GameManager.instance.EndPlay();
+            // other.GetComponent<NormalBall>().PlaySound();
+            other.gameObject.SetActive(false);
+            GameManager.instance.HandleMailbox("CrashBall");
         }
     }
 
@@ -30,8 +32,8 @@ public class Player : MonoBehaviour
         Vector3 moveDir = new Vector3(horizontal, vertical, 0).normalized;
         Vector3 pos = transform.position;
         pos += moveDir * moveSpeed * Time.deltaTime;
-        pos.x = Mathf.Clamp(pos.x, -GameData.mapSizeX, GameData.mapSizeX);
-        pos.y = Mathf.Clamp(pos.y, -GameData.mapSizeY, GameData.mapSizeY);
+        pos.x = Mathf.Clamp(pos.x, -GameManager.instance.mapSizeX, GameManager.instance.mapSizeX);
+        pos.y = Mathf.Clamp(pos.y, -GameManager.instance.mapSizeY, GameManager.instance.mapSizeY);
         transform.position = pos;
 
     }

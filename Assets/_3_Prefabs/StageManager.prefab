@@ -43,3 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28eadb7c8ce63d646a8ace3fb517df6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maps:
+  - {fileID: 8639555711155532379, guid: e301373b39f1fd1468013745b455c1f4, type: 3}
+  rawSpawnerManager: {fileID: 7611657486655003099, guid: 9b448c7329cdd4a40bfc7469aaf51c29,
+    type: 3}

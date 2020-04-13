@@ -13,6 +13,24 @@ using UnityEngine.SceneManagement;
 /// </Summary>
 public class GameManager : MonoBehaviour
 {
+    [HideInInspector] public float playtime = 0.0f;
+    [HideInInspector] public bool isPlaying = false;
+    [HideInInspector] public bool isPause = false;
+    [HideInInspector] public int playerLife = 0;
+    private int ballCount = 200;
+    public NormalBall normalBall;
+    public GameObject balls;
+    private List<NormalBall> objectPool;
+    [HideInInspector]
+    public float mapSizeX
+    {
+        get; set;
+    }
+    [HideInInspector]
+    public float mapSizeY
+    {
+        get; set;
+    }
     [SerializeField] private Player rawPlayer;
     [HideInInspector] public Player player;
     public StageManager rawStageManager;
@@ -25,6 +43,47 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         InitgameManager();
+        CreateNormalBallInObjectPool();
+    }
+
+    private void CreateNormalBallInObjectPool()
+    {
+        objectPool = new List<NormalBall>();
+        balls = Instantiate(balls, Vector3.zero, Quaternion.identity);
+
+        for (int idx = 0; idx < ballCount; idx++)
+        {
+            NormalBall tmp = Instantiate(normalBall, balls.transform) as NormalBall;
+            tmp.name = $"ball_{idx}";
+            objectPool.Add(tmp);
+            tmp.gameObject.SetActive(false);
+        }
+        DontDestroyOnLoad(balls);
+    }
+
+    public NormalBall GetBall()
+    {
+        for (int idx = 0; idx < ballCount; idx++)
+        {
+            if (objectPool[idx].gameObject.activeSelf == false)
+            {
+                return objectPool[idx];
+            }
+        }
+        return null;
+    }
+
+    public void ClearBalls()
+    {
+        for (int idx = 0; idx < ballCount; idx++)
+        {
+            objectPool[idx].gameObject.SetActive(false);
+        }
+    }
+
+    public void ClearBall(NormalBall ball)
+    {
+        ball.gameObject.SetActive(false);
     }
 
     void Start()
@@ -35,11 +94,12 @@ public class GameManager : MonoBehaviour
 
     private void InitPlay()
     {
-        GameData.playtime = 0.0f;
-        GameData.mapSizeX = 14;
-        GameData.mapSizeY = 7;
-        GameData.isPlaying = true;
-        GameData.isPause = false;
+        playtime = 0.0f;
+        mapSizeX = 16.25f;
+        mapSizeY = 8.25f;
+        isPlaying = true;
+        isPause = false;
+        playerLife = 0;
         Time.timeScale = 1;
         player = Instantiate(rawPlayer, Vector3.zero, Quaternion.identity) as Player;
         tmpUIPause = Instantiate(UIPause, Vector3.zero, Quaternion.identity);
@@ -50,14 +110,14 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (GameData.isPlaying)
+        if (isPlaying)
         {
-            GameData.playtime += Time.deltaTime;
+            playtime += Time.deltaTime;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameData.isPlaying)
+            if (isPlaying)
             {
                 togglePause();
             }
@@ -66,13 +126,30 @@ public class GameManager : MonoBehaviour
                 Application.Quit();
             }
         }
+        if (stageManager != null)
+        {
+            if (stageManager.stage == 0 && playtime > 10.0f)
+            {
+                stageManager.NextStage();
+            }
+
+            if (stageManager.stage == 1 && playtime > 25.0f)
+            {
+                stageManager.NextStage();
+            }
+
+            if (stageManager.stage == 2 && playtime > 60.0f)
+            {
+                stageManager.NextStage();
+            }
+        }
     }
 
     public void togglePause()
     {
         Time.timeScale = (Time.timeScale + 1) % 2;
-        GameData.isPause = !GameData.isPause;
-        if (GameManager.instance.tmpUIPause != null) GameManager.instance.tmpUIPause.SetActive(GameData.isPause);
+        isPause = !isPause;
+        if (tmpUIPause != null) tmpUIPause.SetActive(isPause);
     }
 
     IEnumerator PrepareGame()
@@ -116,7 +193,9 @@ public class GameManager : MonoBehaviour
     public void EndPlay()
     {
         KillProcess();
-        GameData.isPlaying = false;
+        ClearBalls();
+        stageManager.Clean();
+        isPlaying = false;
         SceneManager.LoadScene("Ending");
     }
 

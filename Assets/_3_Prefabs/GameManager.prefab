@@ -44,6 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb7d9242f2337d438220dc0320010d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playtime: 0
+  isPlaying: 0
+  isPause: 0
+  playerLife: 0
+  normalBall: {fileID: 9166090655251934312, guid: e96dcf5668a6fb5438241f3a5f0d145f,
+    type: 3}
+  balls: {fileID: 5383480925074212657, guid: aa80136c39fb10243a3becca280b18df, type: 3}
+  objectPool: []
   rawPlayer: {fileID: 1077930101524274483, guid: 6c052e6a1e6490447b5ebe5447eb93d7,
     type: 3}
   player: {fileID: 1077930101524274483, guid: 6c052e6a1e6490447b5ebe5447eb93d7, type: 3}

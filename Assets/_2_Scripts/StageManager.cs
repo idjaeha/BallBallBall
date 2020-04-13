@@ -8,7 +8,12 @@ using UnityEngine;
 /// </Summary>
 public class StageManager : MonoBehaviour
 {
-    private int stage;
+    public int stage;
+    public GameObject[] maps;
+    private GameObject currentMap;
+    private const int FINAL_STAGE = 3;
+    public SpawnerManager rawSpawnerManager;
+    private SpawnerManager spawnerManager;
 
     /// <Summary>
     /// stage는 총 4가지의 형태가 있다.
@@ -20,11 +25,12 @@ public class StageManager : MonoBehaviour
     private string state;
     private void Awake()
     {
-        stage = 0;
+        stage = -1;
         state = "Idle";
+        spawnerManager = Instantiate(rawSpawnerManager, Vector3.zero, Quaternion.identity) as SpawnerManager;
     }
 
-    // 이것이 호출되면 다음 단계로 진행한다.    
+    // 이것이 호출되면 다음 스테이지로 진행한다.    
     public void NextStage()
     {
         if (state.Equals("Playing"))
@@ -32,28 +38,50 @@ public class StageManager : MonoBehaviour
             Clean();
         }
         stage++;
-        Prepare();
+        if (stage == FINAL_STAGE)
+        {
+            GameManager.instance.EndPlay();
+        }
+        else
+        {
+            Prepare();
+        }
     }
 
     private void Prepare()
     {
         state = "Preparing";
-
+        CreateMap(stage);
+        spawnerManager.CreateSpawners(stage);
+        Play();
     }
 
     private void Play()
     {
-
-
+        state = "Playing";
+        spawnerManager.StartSpawner();
     }
 
-    private void Clean()
+    public void Clean()
     {
-
+        state = "Cleaning";
+        spawnerManager.CleanSpawners();
+        CleanMap();
     }
 
     public void HandleCrash()
     {
+        if (--GameManager.instance.playerLife < 0) GameManager.instance.EndPlay();
+    }
 
+    private void CreateMap(int stage)
+    {
+        currentMap = Instantiate(maps[0], Vector3.zero, Quaternion.identity);
+    }
+
+    private void CleanMap()
+    {
+        Destroy(currentMap);
+        GameManager.instance.ClearBalls();
     }
 }

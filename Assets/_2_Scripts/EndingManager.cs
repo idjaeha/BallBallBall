@@ -11,7 +11,7 @@ public class EndingManager : MonoBehaviour
     void Start()
     {
         clearTime = GameObject.FindGameObjectWithTag("ClearTime");
-        float record = GameData.playtime;
+        float record = GameManager.instance.playtime;
         clearTime.GetComponent<Text>().text = $"Your Record : {record:F3}s";
     }
 

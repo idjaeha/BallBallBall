@@ -8,28 +8,41 @@ public class NormalBall : MonoBehaviour
     private Vector3 startForce;
     public float shootSpeed { get; set; }
     public Vector3 shootDir { get; set; }
+    [SerializeField] private GameObject explosion;
+    private AudioSource audioPlayer;
+    public AudioClip explosionSound;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        audioPlayer = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlaySound(AudioClip clip = null)
     {
+        if (clip == null) clip = explosionSound;
+        audioPlayer.Stop();
+        audioPlayer.clip = clip;
+        audioPlayer.time = 0;
+        audioPlayer.Play();
+    }
+
+    private void OnDisable()
+    {
+        // PlaySound();
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        transform.position = Vector3.zero;
+        rb.Sleep();
     }
 
     public void ShootBall(float angle, float speed)
     {
-        rb = GetComponent<Rigidbody>();
         shootDir = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.right;
         shootSpeed = speed;
         rb.AddForce(shootDir * shootSpeed);
-
     }
     public void ShootBall(Vector3 dir, float speed)
     {
-        rb = GetComponent<Rigidbody>();
         shootDir = dir.normalized;
         shootSpeed = speed;
         rb.AddForce(shootDir * shootSpeed);
